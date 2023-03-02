@@ -10,7 +10,8 @@ wordpress_credentials = wordpress_username + ":" + wordpress_password
 wordpress_token = base64.b64encode(wordpress_credentials.encode())
 wordpress_header = {"Authorization": "Basic " + wordpress_token.decode('utf-8')}
 
-base_url = "http://development.local/wp-json/wp/v2/"
+#TODO make environment variable
+base_url = "http://bocouptest.local:57973/wp-json/wp/v2/"
 
 def get_total_pagecount(url:str):
     response = requests.get(url)
@@ -37,5 +38,13 @@ def get_posts(post_type:str, parameters:str):
 
 def update_post(post_type:str,post_id:str, post_data:dict):
     api_url = base_url + post_type + "/" + post_id
-    response = requests.post(api_url, headers=wordpress_header, json=post_data)
-    print(response)
+    #response = requests.post(api_url, auth=(wordpress_username, wordpress_password), json=post_data)
+    
+    # Bocoup work url needs to be working in order for us to POST
+    print(api_url)
+    response = requests.options(api_url, auth=(wordpress_username, wordpress_password))
+
+    # Running into 401
+    # {'code': 'rest_cannot_edit', 'message': 'Sorry, you are not allowed to edit this post.', 'data': {'status': 401}}
+    print(response.json())
+    exit
