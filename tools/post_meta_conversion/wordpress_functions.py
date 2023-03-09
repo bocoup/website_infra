@@ -38,13 +38,5 @@ def get_posts(post_type:str, parameters:str):
 
 def update_post(post_type:str,post_id:str, post_data:dict):
     api_url = base_url + post_type + "/" + post_id
-    #response = requests.post(api_url, auth=(wordpress_username, wordpress_password), json=post_data)
-    
-    # Bocoup work url needs to be working in order for us to POST
-    print(api_url)
-    response = requests.options(api_url, auth=(wordpress_username, wordpress_password))
-
-    # Running into 401
-    # {'code': 'rest_cannot_edit', 'message': 'Sorry, you are not allowed to edit this post.', 'data': {'status': 401}}
-    print(response.json())
-    exit
+    response = requests.post(api_url, auth=(wordpress_username, wordpress_password), json=post_data, headers={'Content-Type': 'application/json'})
+    print(response)

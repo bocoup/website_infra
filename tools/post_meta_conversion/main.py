@@ -27,4 +27,4 @@ for post_type in POST_TYPES:
         acf_fields = convert_post_meta_fields_to_acf_fields(post_type, post_csv_data_rows)
 
         #5. update the post through the REST API
-        update_post(post_type_map[post_type], str(post.get("id")), json.dumps(acf_fields))
+        update_post(post_type, str(post.get("id")), acf_fields)
